@@ -33,6 +33,8 @@ Private Sub Items_ItemAdd(ByVal item As Object)
   Dim objNS As Outlook.NameSpace
   Dim objMail As Outlook.MailItem
   Dim objExtMsg As Outlook.MailItem
+  Dim objReplyMsg As Outlook.MailItem
+  
   Dim objAttachment As Outlook.Attachment
   Dim iLoc1 As Integer
   Dim strHeader As String
@@ -66,6 +68,9 @@ Private Sub Items_ItemAdd(ByVal item As Object)
                 If iLoc1 > 0 Then
                     MsgBox "Contains an attachment with phish test message"
                     .Move objDestFolder
+                    Set objReplyMsg = .Reply
+                    objReplyMsg.Body = "Thanks for reporting this. This message was a phishing test"
+                    objReplyMsg.Send
                 Else
                     MsgBox "Contains a normal email attached"
                 End If
@@ -75,7 +80,7 @@ Private Sub Items_ItemAdd(ByVal item As Object)
             iLoc1 = InStr(1, strHeader, "X-PHISHTEST", 1)
             If iLoc1 > 0 Then
                 MsgBox ("Phising test email, no attachment")
-                objMail.Move objDestFolder
+                .Move objDestFolder
             Else
                 MsgBox ("Normal email, no attachment")
             End If
