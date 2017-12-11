@@ -28,7 +28,7 @@ End Sub
 
 Private Sub Items_ItemAdd(ByVal item As Object)
 
-'  On Error GoTo ErrorHandler
+  On Error GoTo ErrorHandler
   Dim olApp As Outlook.Application
   Dim objNS As Outlook.NameSpace
   Dim objMail As Outlook.MailItem
@@ -74,6 +74,8 @@ Private Sub Items_ItemAdd(ByVal item As Object)
                 Else
                     MsgBox "Contains a normal email attached"
                 End If
+            Else
+                MsgBox "Contains non-email attachment"
             End If
         Else
             strHeader = .PropertyAccessor.GetProperty(PropName)
@@ -89,7 +91,7 @@ Private Sub Items_ItemAdd(ByVal item As Object)
     Set objAttachment = Nothing
     Set objExtMsg = Nothing
   Else
-    MsgBox ("item is class: " & objMail.Class)
+    MsgBox ("item is " & TypeName(item) & " class: " & item.Class)
   End If
   If fso.FileExists(strTempMsg) Then
     fso.DeleteFile strTempMsg, True

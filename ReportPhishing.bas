@@ -27,15 +27,17 @@ Const ReportAck = "Potential phising email reported to " & ForwardTo
 
   On Error GoTo ErrorHandler
   
+  Dim objItem As Object
   Dim objMsg As Outlook.MailItem
   Dim objMail As Outlook.MailItem
   Dim objAttachments As Outlook.Attachments
   Dim iLoc1 As Integer
   Dim strHeader As String
   
-  Set objMsg = GetCurrentItem()
+  Set objItem = GetCurrentItem()
   
-  If TypeName(objMsg) = "MailItem" Then
+  If TypeName(objItem) = "MailItem" Then
+    objMsg = objItem
     With objMsg
         strHeader = .PropertyAccessor.GetProperty(PropName)
         iLoc1 = InStr(1, strHeader, "X-PHISHTEST", 1)
